@@ -1,0 +1,67 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 28
+Rules claiming more threads will be scaled down.
+Job stats:
+job      count    min threads    max threads
+-----  -------  -------------  -------------
+all          1              1              1
+bwa          4              1              1
+total        5              1              1
+
+Select jobs to execute...
+
+[Thu Jan 12 17:25:16 2023]
+rule bwa:
+    output: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.05.out
+    jobid: 2
+    reason: Missing output files: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.05.out
+    wildcards: NOISE=0.05
+    resources: tmpdir=/tmp
+
+
+[Thu Jan 12 17:25:16 2023]
+rule bwa:
+    output: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.out
+    jobid: 1
+    reason: Missing output files: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.out
+    wildcards: NOISE=0
+    resources: tmpdir=/tmp
+
+
+[Thu Jan 12 17:25:16 2023]
+rule bwa:
+    output: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.1.out
+    jobid: 3
+    reason: Missing output files: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.1.out
+    wildcards: NOISE=0.1
+    resources: tmpdir=/tmp
+
+
+[Thu Jan 12 17:25:16 2023]
+rule bwa:
+    output: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.15.out
+    jobid: 4
+    reason: Missing output files: /scratch/data/nsdong2/paction/data/extensions/samples1noise0.15.out
+    wildcards: NOISE=0.15
+    resources: tmpdir=/tmp
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in rule bwa in line 7 of /scratch/data/nsdong2/paction/Snakefile:
+Job Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+/scratch/data/nsdong2/paction/data/extensions/samples1noise0.05.out completed successfully, but some output files are missing. 2
+Waiting at most 5 seconds for missing files.
+MissingOutputException in rule bwa in line 7 of /scratch/data/nsdong2/paction/Snakefile:
+Job Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+/scratch/data/nsdong2/paction/data/extensions/samples1noise0.out completed successfully, but some output files are missing. 1
+Waiting at most 5 seconds for missing files.
+MissingOutputException in rule bwa in line 7 of /scratch/data/nsdong2/paction/Snakefile:
+Job Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+/scratch/data/nsdong2/paction/data/extensions/samples1noise0.15.out completed successfully, but some output files are missing. 4
+Waiting at most 5 seconds for missing files.
+MissingOutputException in rule bwa in line 7 of /scratch/data/nsdong2/paction/Snakefile:
+Job Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+/scratch/data/nsdong2/paction/data/extensions/samples1noise0.1.out completed successfully, but some output files are missing. 3
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-01-12T172516.430837.snakemake.log
