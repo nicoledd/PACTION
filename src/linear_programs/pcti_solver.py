@@ -5,33 +5,27 @@ import networkx as nx
 import itertools
 
 
-# minimum correction tree parsimonious clone reconciliation problem
 class PCTIsolver:
 
-    # snv_mat: snv proportion matrix
-    # cna_mat: cna proportion matrix
-    # snv_edges: snv tree
-    # cna_edges: cna tree
-    def __init__(self, snv_mat, cna_mat, snv_edges, cna_edges, threads = 1):
-
+    def __init__(self, snv_mat, cna_mat, snv_edges, cna_edges):
+        
         # 1) store parameters
         self.snv_mat = snv_mat
         self.cna_mat = cna_mat
         self.snv_edges = snv_edges
         self.cna_edges = cna_edges
-        self.threads = threads
-
-        # 2) store all final solutions
-        self.correction = None # objective value
-        self.clones = [] # predicted clones
-        self.proportions = None # dict[(sample, snv_clone, cna_clone)] = proportion
-        self.propDf = None
-        self.edges = [] # predicted tree: edge list
-        self.G = None # predicted tree: networkx digraph
         self.S = nx.DiGraph()
         self.S.add_edges_from(self.snv_edges)
         self.C = nx.DiGraph()
         self.C.add_edges_from(self.cna_edges)
+
+        # 2) store all final solutions
+        self.correction = None
+        self.clones = []
+        self.proportions = None # dict[(sample, snv_clone, cna_clone)] = proportion
+        self.propDf = None
+        self.edges = [] # predicted tree: edge list
+        self.G = None # predicted tree: networkx digraph
         self.numSol = 0 # number of optimal solutions
 
 
@@ -187,9 +181,6 @@ class PCTIsolver:
         model.setObjective(obj_sum, gp.GRB.MINIMIZE)
 
         # 6) Run the Model and evaluate
-        
-        # 6.1) set the number of threads used
-        model.setParam(gp.GRB.Param.Threads, self.threads)
 
         # 6.2) Run the model
         model.optimize()

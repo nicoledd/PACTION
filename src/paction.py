@@ -1,15 +1,12 @@
 import sys
 import argparse
 
-from pci_caller import solvePCI
-from pcti_caller import solvePCTI
+from pci_caller import solveProgressivePCI
 
 
 def main(args):
-    if args.t.count("None") == 0:
-        solvePCTI(args)
-    else:
-        solvePCI(args)
+    assert len(args.p)==len(args.t), 'num proportions and num trees do not match'
+    solveProgressivePCI(args)
 
 
 if __name__ == "__main__":

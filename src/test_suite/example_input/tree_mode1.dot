@@ -1,0 +1,7 @@
+digraph N {
+	overlap="false"
+	rankdir="TB"
+	"0" -> "1" [style="bold"];
+	"0" -> "3" [style="bold"];
+	"0" -> "2" [style="bold"];
+}

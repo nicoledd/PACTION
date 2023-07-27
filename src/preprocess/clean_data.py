@@ -1,22 +1,22 @@
 import pandas as pd
 import re
 from .prufer import enumPrufer
+import networkx as nx
 
 
 
-def readProportionMatrices(args):
-    df_fsnv = pd.read_csv(args.fsnv, sep=',', index_col = 'genotypes')
-    df_fcna = pd.read_csv(args.fcna, sep=',', index_col = 'genotypes')
-    return df_fsnv, df_fcna
+def readProportionMatrices(prop):
+    return pd.read_csv(prop, sep='\t') #index_col = 'genotypes'
 
 
-def getAllPossibleSnvCnaTrees(args):
-    df_fsnv, df_fcna = readProportionMatrices(args)
-    nsnv = len(df_fsnv)
-    ncna = len(df_fcna)
-    snvTrees = enumPrufer(nsnv)
-    cnaTrees = enumPrufer(ncna)
-    return snvTrees, cnaTrees
+def getAllPossibleTrees(prop):
+    trees = enumPrufer(len(prop))
+    nxTrees = []
+    for tree in trees:
+        G = nx.DiGraph()
+        G.add_edges_from(tree)
+        nxTrees.append(G)
+    return nxTrees
 
 
 def getTreeEdges(edgefile, nodes):
@@ -24,7 +24,7 @@ def getTreeEdges(edgefile, nodes):
     nodes = [str(node) for node in nodes]
     with open(edgefile, 'r') as inp:
         for line in inp:
-            data = line.rstrip('\n').split(',')
+            data = line.rstrip('\n').split('\t')
             node_out = data[0]
             node_in = data[1]
 
@@ -36,7 +36,9 @@ def getTreeEdges(edgefile, nodes):
 
             edgeList.append((idx_out, idx_in))
 
-    return edgeList
+    G = nx.DiGraph()
+    G.add_edges_from(edgeList)
+    return G
 
 
 def ifTrueTreesAreFoundIn(minSolutions, args):
@@ -47,9 +49,10 @@ def ifTrueTreesAreFoundIn(minSolutions, args):
     return False
 
 def getTrueTrees(args):
-    df_fsnv, df_fcna = readProportionMatrices(args)
-    snv_edges = getTreeEdges(args.truesnv, list(df_fsnv.index))
-    cna_edges = getTreeEdges(args.truecna, list(df_fcna.index))
+    df_fsnv = readProportionMatrices(args.p[0])
+    df_fcna = readProportionMatrices(args.p[1])
+    snv_edges = getTreeEdges(args.truesnv, list(df_fsnv['genotypes']))
+    cna_edges = getTreeEdges(args.truecna, list(df_fcna['genotypes']))
     return snv_edges, cna_edges
 
 def getIndexOfTrueGraphs(minSolutions, args):
